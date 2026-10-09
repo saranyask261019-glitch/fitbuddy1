@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your FitBuddy Plan</title><link rel="stylesheet" href="/static/style.css"></head>
+<body><header class="topbar"><a class="brand" href="/">FitBuddy<span>+</span></a><nav><a href="/">New plan</a><a href="/view-all-users">Admin view</a></nav></header>
+<main class="content">
+  <p class="eyebrow">YOUR PLAN IS READY</p><h1>Hello, {{ user.username }} 👋</h1>
+  <section class="stats"><div><small>User ID</small><strong>{{ user.user_id }}</strong></div><div><small>Goal</small><strong>{{ user.goal|title }}</strong></div><div><small>Intensity</small><strong>{{ user.intensity|title }}</strong></div><div><small>Age / Weight</small><strong>{{ user.age }} / {{ user.weight }} kg</strong></div></section>
+  {% if feedback_message %}<div class="success">{{ feedback_message }}</div>{% endif %}
+  <section class="panel"><div class="section-heading"><div><p class="eyebrow">7-DAY SCHEDULE</p><h2>{% if updated %}Updated workout plan{% else %}Your workout plan{% endif %}</h2></div><button class="secondary" onclick="window.print()" type="button">Print plan</button></div>
+    <pre class="plan">{{ workout_plan }}</pre></section>
+  <section class="panel tip"><p class="eyebrow">FUEL & RECOVER</p><h2>Nutrition / recovery tip</h2><p>{{ nutrition_tip }}</p></section>
+  <section class="panel"><h2>Improve your plan</h2><p class="muted">Tell FitBuddy what you would like to change.</p>
+    <form action="/submit-feedback" method="post"><input type="hidden" name="user_id" value="{{ user.user_id }}">
+      <label for="feedback">Your feedback</label><textarea id="feedback" name="feedback" minlength="3" maxlength="1000" required placeholder="Example: make it gentler and add more rest days"></textarea>
+      <button class="primary" type="submit">Update plan with feedback →</button></form>
+  </section><p class="center"><a href="/">← Create another plan</a></p>
+</main><footer>Listen to your body. Stop if an activity causes pain.</footer></body></html>

@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FitBuddy Admin</title><link rel="stylesheet" href="/static/style.css"></head>
+<body><header class="topbar"><a class="brand" href="/">FitBuddy<span>+</span></a><nav><a href="/">Create plan</a><a href="/docs">API docs</a></nav></header>
+<main class="content wide"><p class="eyebrow">ADMIN DASHBOARD</p><h1>Registered users</h1><p class="muted">Local development dashboard. Add authentication before exposing this page publicly.</p>
+{% if users %}<div class="table-wrap"><table><thead><tr><th>User</th><th>Profile</th><th>Goal / intensity</th><th>Original plan</th><th>Latest updated plan</th><th>Feedback</th></tr></thead><tbody>
+{% for user in users %}{% set plan = plans_by_user.get(user.user_id) %}<tr><td><strong>{{ user.username }}</strong><br><small>{{ user.user_id }}</small></td>
+<td>Age: {{ user.age }}<br>Weight: {{ user.weight }} kg</td><td>{{ user.goal }}<br>{{ user.intensity }}</td>
+<td><details><summary>View original</summary><pre>{{ plan.original_plan if plan else "No plan" }}</pre></details></td>
+<td><details><summary>View latest</summary><pre>{{ (plan.updated_plan or "Not updated yet") if plan else "No plan" }}</pre></details></td>
+<td>{{ plan.latest_feedback if plan and plan.latest_feedback else "—" }}</td></tr>{% endfor %}
+</tbody></table></div>{% else %}<section class="panel"><p>No users yet. <a href="/">Generate the first plan</a>.</p></section>{% endif %}
+</main><footer>FitBuddy · Local admin view</footer></body></html>
